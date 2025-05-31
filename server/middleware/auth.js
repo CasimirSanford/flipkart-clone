@@ -7,28 +7,22 @@ exports.isAuthenticatedUser = aysnchandler(async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-        return next(new ErrorHandler('Please login first before moving further', 400));
+        return next(new ErrorHandler('Please Login First before Moving further', 400));
     }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT);
-        req.user = await UserModel.findById(decoded.id);
+    const decode = jwt.verify(token, process.env.JWT);
 
-        if (!req.user) {
-            return next(new ErrorHandler('User not found from token', 404));
-        }
+    req.user = await UserModel.findById(decode.id);
 
-        next();
-    } catch (err) {
-        return next(new ErrorHandler('Invalid or expired token', 401));
-    }
+    next();
 });
 
 exports.authorizerole = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return next(new ErrorHandler('You are not allowed to access this route', 403));
+            return next(new ErrorHandler('You are not Allowed to Access This Route', 300));
         }
         next();
     };
 };
+
