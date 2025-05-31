@@ -1,13 +1,20 @@
 const express = require('express');
-const { createorder, updateorder, deleteorder, myorder, getorder, getallorder } = require('../controllers/ordercontroller');
-const {Authorization, authorizerole } = require('../middleware/auth')
-const app = express.Router()
+const { 
+  createuser, loginuser, updateuser, logoutuser, 
+  adminupdateuser, deleteuser, getalluser, getuser, admingetuser 
+} = require('../controllers/usercontroller');
 
+const { isAuthenticatedUser, authorizerole } = require('../middleware/auth');
+const app = express.Router();
 
+exports.CreateUser = app.post('/create/user', createuser);
+exports.LoginUser = app.post('/login/user', loginuser);
+exports.UpdateUser = app.put('/update/user', isAuthenticatedUser, updateuser);
+exports.LogoutUser = app.get('/logout/user', isAuthenticatedUser, logoutuser);
+exports.GetUser = app.get('/me/user', isAuthenticatedUser, getuser);
 
-exports.CreateOrder = app.post('/create/order', Authorization , createorder)
-exports.UpdateOrder = app.put('/update/order/:id', Authorization , updateorder)
-exports.DeleteOrder = app.delete('/delete/order/:id', Authorization , authorizerole('admin'), deleteorder)
-exports.MyOrders = app.get('/get/myorders', Authorization , myorder)
-exports.Getorder = app.get('/order/:id', Authorization , getorder)
-exports.GetAllOrders = app.get('/getall/orders', Authorization , authorizerole('admin'), getallorder)
+// admin routes
+exports.AdminUpdateuser = app.put('/admin/update/user/:id', isAuthenticatedUser, authorizerole('admin'), adminupdateuser);
+exports.AdminRemoveUser = app.delete('/admin/delete/user/:id', isAuthenticatedUser, authorizerole('admin'), deleteuser);
+exports.GetAllUSer = app.get('/getall/user', isAuthenticatedUser, authorizerole('admin'), getalluser);
+exports.AdminGetUser = app.get('/admin/getuser/:id', isAuthenticatedUser, authorizerole('admin'), admingetuser);
