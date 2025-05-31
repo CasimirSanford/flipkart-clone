@@ -182,4 +182,3 @@ exports.getalluser = aysnchandler(async(req,res,next)=>{
     })
 
 })
-
