@@ -26,13 +26,6 @@ const app = express();
 // }
 // app.use(cors(corsOptions));
 
-app.use(cors({
-  origin:'https://flipkart-clone-ui.vercel.app',
-  // origin:'http://localhost:3000',
-  credentials:true,
-  optionsSuccessStatus:200
-}))
-
 
 app.use(cookieParser())
 app.use(bodyParser.json({limit: '50mb'}))
