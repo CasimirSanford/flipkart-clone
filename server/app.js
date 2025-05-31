@@ -26,6 +26,10 @@ const app = express();
 // }
 // app.use(cors(corsOptions));
 
+app.use(cors({
+  origin: "https://flipkart-clone-ten-beige.vercel.app/",  // Replace with your actual frontend URL
+  credentials: true,  // Allow cookies and credentials if needed
+}));
 
 app.use(cookieParser())
 app.use(bodyParser.json({limit: '50mb'}))
